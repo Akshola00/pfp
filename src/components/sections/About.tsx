@@ -3,11 +3,16 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { TechIcon } from "@/components/ui/TechIcon";
 import { site } from "@/data/site";
 
+/** Plain-language stats — no acronyms, no ecosystem names. */
 const stats = [
-  { value: `${site.yearsExperience}+`, label: "Years building", detail: "Backend, systems and on-chain" },
-  { value: "3", label: "Chain ecosystems", detail: "Ethereum · Starknet · Stellar" },
-  { value: "7+", label: "OSS contributions", detail: "Merged across protocol repos" },
-  { value: "206", label: "Forks on PrediFi", detail: "Protocol I maintain" },
+  {
+    value: `${site.yearsExperience}+`,
+    label: "Years building",
+    detail: "Professionally, across the full stack",
+  },
+  { value: "2", label: "Companies co-founded", detail: "Both shipped and live" },
+  { value: "206", label: "Developers built on my code", detail: "Forks of my open-source work" },
+  { value: "7+", label: "Open-source contributions", detail: "Merged into other teams' projects" },
 ];
 
 /** The stack strip — a quick visual read of what I work in day to day. */
@@ -31,30 +36,39 @@ export function About() {
         id="about"
         index="01"
         kicker="about"
-        title="I work at the layer everything else sits on"
+        title="I build the part you never see"
       />
 
       <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
         <Reveal className="space-y-5 text-base leading-relaxed text-muted sm:text-lg">
           <p>
-            I&apos;m a full-stack software engineer with a strong specialization in{" "}
-            <strong className="font-medium text-fg">backend systems and infrastructure</strong>.
-            I&apos;ve worked across the full development lifecycle — architecting scalable,
-            high-performance backend services, building polished frontend interfaces, and shipping
-            cross-platform mobile applications.
+            Most of what I build is invisible. When an app loads instantly, handles a thousand
+            people at once, or moves money without losing a penny, that&apos;s the part I work on —{" "}
+            <strong className="font-medium text-fg">
+              the systems underneath that everything else depends on
+            </strong>
+            .
           </p>
           <p>
-            My core passion sits at the foundational layers: the crates, libraries, APIs and
-            infrastructure that other systems and developers depend on. That&apos;s the work I find
-            most interesting and the work I&apos;m best at — the parts where correctness, failure
-            modes and clear boundaries matter more than surface polish.
+            I&apos;ve done this across the whole product: the servers and databases that do the
+            heavy lifting, the screens people actually touch, and mobile apps in between. But the
+            foundations are where I&apos;m strongest and where I choose to spend my time — because
+            that&apos;s the layer that decides whether a product holds up once real users arrive.
           </p>
           <p>
-            Right now that means Rust services on Axum, TypeScript APIs with NestJS and Express, and
-            smart contracts across Ethereum, Starknet and Stellar. I maintain{" "}
-            <strong className="font-medium text-fg">PrediFi</strong>, an open-source prediction
-            protocol on Soroban, and co-founded{" "}
-            <strong className="font-medium text-fg">PayMesh</strong>, where I own the backend.
+            I&apos;ve co-founded two companies and shipped both.{" "}
+            <strong className="font-medium text-fg">PayMesh</strong> moves real money between groups
+            of people automatically, and <strong className="font-medium text-fg">Studly</strong> is
+            used by over 3,000 students. Alongside that I maintain open-source software that
+            hundreds of other developers have forked and built on.
+          </p>
+
+          {/* Kept deliberately separate and quieter — engineers want this, nobody else does. */}
+          <p className="!mt-7 rounded-lg border border-line bg-sunken/60 p-4 font-mono text-xs leading-relaxed text-subtle sm:text-xs">
+            <span className="text-muted">For the engineers reading:</span> Rust services on Axum,
+            TypeScript APIs with NestJS and Express, and smart contracts across Ethereum (Solidity),
+            Starknet (Cairo) and Stellar (Soroban). Interested in the foundational layer — crates,
+            libraries, APIs and infrastructure other systems build on.
           </p>
 
           <div className="!mt-8 rounded-xl border border-line bg-elevated/60 p-5">
@@ -93,7 +107,7 @@ export function About() {
 
           <Reveal delay={160}>
             <h3 className="font-mono text-xs tracking-widest text-subtle uppercase">
-              Daily stack
+              Tools I work with
             </h3>
             <ul className="mt-4 flex flex-wrap gap-2">
               {stackHighlights.map((tech) => (

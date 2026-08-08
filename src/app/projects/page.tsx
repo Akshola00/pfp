@@ -36,13 +36,13 @@ export default function ProjectsPage() {
             id="projects-page-heading"
             className="mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
           >
-            Protocols, backends and products I&apos;ve built
+            Products I&apos;ve built and shipped
           </h1>
 
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            Every project here has a case study covering the problem, the architecture, the parts
-            that were genuinely hard, and what came out the other side. Source is linked wherever
-            it&apos;s public.
+            Every project here has a full write-up: the problem it solves, what I built, and the
+            impact it had. Technical detail is there too, but it sits at the end — read as far as
+            you need to.
           </p>
 
           <ul className="mt-8 flex flex-wrap gap-1.5">

@@ -50,14 +50,19 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * Order matters: impact lands before any technical detail, because most readers
+ * here are recruiters and founders who want the outcome, not the architecture.
+ * `technical: true` sections sit below a divider they can stop at.
+ */
 const sections = [
-  { id: "overview", label: "Overview" },
+  { id: "overview", label: "What it is" },
   { id: "problem", label: "The problem" },
-  { id: "approach", label: "Approach" },
-  { id: "architecture", label: "Architecture" },
-  { id: "challenges", label: "Hard parts" },
-  { id: "results", label: "Results" },
-  { id: "learnings", label: "Learnings" },
+  { id: "results", label: "The impact" },
+  { id: "approach", label: "What I built" },
+  { id: "architecture", label: "How it works", technical: true },
+  { id: "challenges", label: "Hard parts", technical: true },
+  { id: "learnings", label: "What I took away" },
 ];
 
 export default async function CaseStudyPage({ params }: PageProps<"/projects/[slug]">) {
@@ -117,10 +122,28 @@ export default async function CaseStudyPage({ params }: PageProps<"/projects/[sl
               <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
                 {project.title}
               </h1>
-              <p className="mt-3 font-mono text-sm text-accent sm:text-base">{project.tagline}</p>
+              <p className="mt-3 max-w-xl text-lg leading-snug font-medium text-accent sm:text-xl">
+                {project.tagline}
+              </p>
+              <p className="mt-2 font-mono text-xs text-subtle">{project.techLine}</p>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
                 {project.summary}
               </p>
+
+              {/* Headline numbers up top, before any technical framing. */}
+              <dl className="mt-7 flex flex-wrap gap-x-8 gap-y-4">
+                {project.impact.map((item) => (
+                  <div key={item.label}>
+                    <dt className="sr-only">{item.label}</dt>
+                    <dd>
+                      <span className="block text-2xl font-semibold tracking-tight text-fg">
+                        {item.value}
+                      </span>
+                      <span className="mt-1 block text-xs text-muted">{item.label}</span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
 
               <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
                 <div>
@@ -209,8 +232,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/projects/[sl
                 On this page
               </p>
               <ul className="mt-4 space-y-1 border-l border-line">
-                {sections.map((section) => (
+                {sections.map((section, i) => (
                   <li key={section.id}>
+                    {/* Label the technical group once, at its first entry. */}
+                    {section.technical && !sections[i - 1]?.technical && (
+                      <span className="mt-3 mb-1 block pl-4 font-mono text-[0.625rem] tracking-widest text-subtle uppercase">
+                        Technical
+                      </span>
+                    )}
                     <a
                       href={`#${section.id}`}
                       className="-ml-px block border-l border-transparent py-1.5 pl-4 text-sm text-muted transition-colors hover:border-accent hover:text-accent"
@@ -224,7 +253,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/projects/[sl
           </nav>
 
           <div className="min-w-0 max-w-3xl space-y-14">
-            <CaseSection id="overview" title="Overview">
+            <CaseSection id="overview" title="What it is">
               <p>{caseStudy.overview}</p>
             </CaseSection>
 
@@ -242,7 +271,35 @@ export default async function CaseStudyPage({ params }: PageProps<"/projects/[sl
               </ul>
             </CaseSection>
 
-            <CaseSection id="approach" title="Approach">
+            <CaseSection id="results" title="The impact">
+              <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line">
+                {caseStudy.results.map((result) => (
+                  <div key={result.label} className="bg-bg p-5">
+                    <dt className="sr-only">{result.label}</dt>
+                    <dd>
+                      <span className="block font-mono text-2xl font-semibold text-accent sm:text-3xl">
+                        {result.metric}
+                      </span>
+                      <span className="mt-1.5 block text-xs leading-snug text-muted sm:text-sm">
+                        {result.label}
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="mt-6 flex items-start gap-3 rounded-lg border border-term-green/25 bg-term-green/5 p-4">
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-term-green"
+                  aria-hidden="true"
+                />
+                <p className="text-sm leading-relaxed text-fg">
+                  <span className="font-mono text-xs text-subtle">outcome: </span>
+                  {project.outcome}
+                </p>
+              </div>
+            </CaseSection>
+            <CaseSection id="approach" title="What I built">
               <ol className="space-y-6">
                 {caseStudy.approach.map((item, i) => (
                   <li key={item.title} className="rounded-xl border border-line bg-elevated p-5">
@@ -260,7 +317,19 @@ export default async function CaseStudyPage({ params }: PageProps<"/projects/[sl
               </ol>
             </CaseSection>
 
-            <CaseSection id="architecture" title="Architecture">
+            {/*
+              Everything below is for engineers. Flagged explicitly so a recruiter
+              or founder knows they've already read the part that matters to them.
+            */}
+            <Reveal className="flex items-center gap-4 pt-2">
+              <span className="h-px flex-1 bg-line" aria-hidden="true" />
+              <span className="font-mono text-[0.6875rem] tracking-widest text-subtle uppercase">
+                Technical detail below
+              </span>
+              <span className="h-px flex-1 bg-line" aria-hidden="true" />
+            </Reveal>
+
+            <CaseSection id="architecture" title="How it works">
               <TerminalWindow
                 title={`${project.slug}/ARCHITECTURE.md`}
                 bodyClassName="p-0"
@@ -304,34 +373,6 @@ export default async function CaseStudyPage({ params }: PageProps<"/projects/[sl
               </div>
             </CaseSection>
 
-            <CaseSection id="results" title="Results">
-              <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line">
-                {caseStudy.results.map((result) => (
-                  <div key={result.label} className="bg-bg p-5">
-                    <dt className="sr-only">{result.label}</dt>
-                    <dd>
-                      <span className="block font-mono text-2xl font-semibold text-accent sm:text-3xl">
-                        {result.metric}
-                      </span>
-                      <span className="mt-1.5 block text-xs leading-snug text-muted sm:text-sm">
-                        {result.label}
-                      </span>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              <div className="mt-6 flex items-start gap-3 rounded-lg border border-term-green/25 bg-term-green/5 p-4">
-                <span
-                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-term-green"
-                  aria-hidden="true"
-                />
-                <p className="text-sm leading-relaxed text-fg">
-                  <span className="font-mono text-xs text-subtle">outcome: </span>
-                  {project.outcome}
-                </p>
-              </div>
-            </CaseSection>
 
             <CaseSection id="learnings" title="What I took away">
               <ul className="space-y-3">

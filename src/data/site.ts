@@ -23,6 +23,37 @@ export const site = {
   roles: ["Full-Stack Developer", "Open Source Contributor", "Blockchain Developer"],
 } as const;
 
+/**
+ * Headline numbers for the hero. Most of this site's traffic is recruiters,
+ * founders and hiring managers — they scan numbers, not stack names. Keep these
+ * to outcomes a non-technical reader can judge.
+ */
+export const impactStats = [
+  { value: "3,000+", label: "People using what I've built" },
+  { value: "$3K+", label: "Processed through my systems" },
+  { value: "4", label: "Products shipped end to end" },
+  { value: "4 yrs", label: "Building professionally" },
+];
+
+/** Plain-English capabilities. No jargon — the stack is listed elsewhere. */
+export const whatIDo = [
+  {
+    title: "Build the engine behind the app",
+    detail:
+      "The servers, databases and connections that make a product work — the part users never see but always feel when it's slow or broken.",
+  },
+  {
+    title: "Take products from idea to live",
+    detail:
+      "I've co-founded two companies and shipped both, handling everything from first design decision to real users in production.",
+  },
+  {
+    title: "Make systems people can trust",
+    detail:
+      "Software that handles real money and thousands of users without falling over, losing data or needing someone to babysit it.",
+  },
+];
+
 export type SocialLink = {
   label: string;
   href: string;

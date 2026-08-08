@@ -21,7 +21,7 @@ export function OpenSource() {
         index="04"
         kicker="open source"
         title="Building in public"
-        description="I contribute to the protocol repos I use — tests, tooling, features and reviews. Most of it lands in the Starknet and Stellar ecosystems."
+        description="Open source means the code is public and free for anyone to use. I write and maintain it, and I contribute to projects other teams depend on — a good measure of whether work holds up under outside scrutiny."
         action={
           <ExternalButton href={githubStats.profileUrl} variant="secondary" size="sm">
             <SocialIcon icon="github" className="h-3.5 w-3.5" />

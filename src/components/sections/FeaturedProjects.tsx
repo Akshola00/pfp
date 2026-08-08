@@ -12,7 +12,7 @@ export function FeaturedProjects() {
         index="03"
         kicker="selected work"
         title="Things I've built and shipped"
-        description="Protocols, backends and products — each with a case study covering the architecture, the hard parts and what came out of it."
+        description="Real products with real users, plus open-source tools other developers build on. Each one has a full write-up: what it does, who it's for, and what it achieved."
         action={
           <ButtonLink href="/projects" variant="secondary" size="sm">
             All projects

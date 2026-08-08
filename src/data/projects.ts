@@ -31,10 +31,20 @@ export type CaseStudy = {
 export type Project = {
   slug: string;
   title: string;
-  /** One line, shown under the title on cards. */
+  /**
+   * Plain-English one-liner: what this does and who it's for. No jargon, no
+   * stack names — this is the line a recruiter or founder reads first.
+   */
   tagline: string;
-  /** Card-length description, 2–3 sentences max. */
+  /**
+   * The same thing said technically, shown small underneath for engineers.
+   * Keeps credibility with developers without leading with it.
+   */
+  techLine: string;
+  /** Card-length description in plain language. 2–3 sentences max. */
   summary: string;
+  /** Headline numbers shown prominently on the card. Two or three, most impressive first. */
+  impact: { value: string; label: string }[];
   /** Single sentence: the business or user outcome. */
   outcome: string;
   role: string;
@@ -74,9 +84,15 @@ export const projects: Project[] = [
   {
     slug: "predifi",
     title: "PrediFi",
-    tagline: "Decentralized outcome prediction protocol on Stellar (Soroban)",
+    tagline: "Lets anyone run a prediction market that pays out by itself",
+    techLine: "Soroban smart contracts on Stellar · Rust",
     summary:
-      "An open-source, on-chain prediction market protocol where users create and join trustless prediction pools. Market logic, staking, resolution and payouts all run on-chain across modular Soroban contracts, with automated price-based resolution via oracle integrations like Pyth.",
+      "People create a pool around a future event — an election result, a price target — put money behind an outcome, and get paid automatically when it settles. No company holds the funds and nobody decides the winner by hand: the rules are written into the software and enforce themselves. I maintain the project and lead its core development.",
+    impact: [
+      { value: "206", label: "Forks by other developers" },
+      { value: "23", label: "GitHub stars" },
+      { value: "0", label: "Middlemen holding funds" },
+    ],
     outcome:
       "Gives users a fully trustless way to create and settle prediction markets on-chain — no centralized intermediary ever holds or resolves funds.",
     role: "Maintainer & core protocol engineer",
@@ -178,9 +194,15 @@ export const projects: Project[] = [
   {
     slug: "paymesh",
     title: "PayMesh",
-    tagline: "Automated on-chain group payments and fundraising on Starknet",
+    tagline: "Splits group payments automatically, so nobody has to chase anyone for money",
+    techLine: "Cairo smart contracts on Starknet · Rust & Axum backend",
     summary:
-      "Groups set payout rules once via a smart contract and every payment to the group address splits and distributes automatically. Each group gets its own child contract on Starknet, so splits are enforced by code and fully transparent on-chain. I co-founded the project and built the Rust/Axum backend.",
+      "A group sets its split once — 40/35/25, however they like — and every payment that arrives is divided and sent out instantly. No spreadsheets, no manual transfers, no arguments about who got paid what. I co-founded the company and built the backend that runs it.",
+    impact: [
+      { value: "$3K+", label: "Processed in payments" },
+      { value: "Live", label: "In production at paymesh.app" },
+      { value: "1 setup", label: "Replaces every future payout round" },
+    ],
     outcome:
       "Turns multi-step, error-prone manual crypto payouts into a one-time setup with instant, trustless distribution.",
     role: "Co-founder & backend lead",
@@ -267,7 +289,7 @@ export const projects: Project[] = [
         },
       ],
       results: [
-        { metric: "$10K+", label: "Processed in on-chain transactions" },
+        { metric: "$3K+", label: "Processed in on-chain transactions" },
         { metric: "1 setup", label: "Replaces every future manual payout round" },
         { metric: "N→1", label: "Transactions the payer has to send per cycle" },
         { metric: "100%", label: "Split enforcement moved into contract code" },
@@ -282,9 +304,15 @@ export const projects: Project[] = [
   {
     slug: "studly",
     title: "Studly",
-    tagline: "AI-powered collaborative study platform",
+    tagline: "A study platform where students learn together instead of alone",
+    techLine: "Rust & Axum backend powering the community feed",
     summary:
-      "Studly helps students learn, share knowledge, track progress and stay motivated through collaborative study tools, a community feed and a personalised 'Lucid' learning engine. I co-founded the product and built the feed backend in Rust with Axum.",
+      "Studly helps students study, track their progress and stay motivated by making learning social. I co-founded the product and built the community feed — the part people open every day to share what they're working on and keep each other going.",
+    impact: [
+      { value: "3,000+", label: "Students using it" },
+      { value: "Daily", label: "Active community feed" },
+      { value: "Live", label: "At usestudly.com" },
+    ],
     outcome:
       "Powers the community feed that drives daily engagement and peer-to-peer learning for 3,000+ users.",
     role: "Co-founder & backend engineer",
@@ -371,9 +399,15 @@ async fn feed(
   {
     slug: "agromart",
     title: "AgroMart",
-    tagline: "E-marketplace for fresh food items",
+    tagline: "An online market for buying fresh food straight from local vendors",
+    techLine: "NestJS & TypeScript API",
     summary:
-      "A digital marketplace connecting buyers directly with fresh produce and food vendors. I worked on the backend with NestJS, building the API layer that powers the marketplace — catalog, vendors, and order flow.",
+      "A marketplace connecting buyers directly with people selling fresh produce, cutting out the middlemen who add cost without adding value. I built the backend — the product catalogue, vendor accounts and ordering system the storefront runs on.",
+    impact: [
+      { value: "Live", label: "Trading at agromart.thebuidl.xyz" },
+      { value: "Uganda", label: "Next market, in progress" },
+      { value: "Direct", label: "Buyer to vendor, no middlemen" },
+    ],
     outcome:
       "Gives buyers a streamlined way to buy fresh food direct from vendors, with expansion into Uganda in progress.",
     role: "Backend engineer",

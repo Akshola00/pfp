@@ -3,26 +3,8 @@ import { ButtonLink, ExternalButton } from "@/components/ui/Button";
 import { ArrowRight, Download } from "@/components/ui/Icon";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { StatusPill } from "@/components/ui/Tag";
-import { CodeBlock, TerminalWindow } from "@/components/ui/TerminalWindow";
 import { marqueeSkills } from "@/data/skills";
-import { site, socials } from "@/data/site";
-
-const HERO_SNIPPET = `// engineer.rs
-pub struct Engineer {
-    focus: &'static str,
-    stacks: [&'static str; 3],
-    shipping: bool,
-}
-
-impl Engineer {
-    pub fn akinshola() -> Self {
-        Self {
-            focus: "backend & systems",
-            stacks: ["rust", "typescript", "web3"],
-            shipping: true,
-        }
-    }
-}`;
+import { impactStats, site, socials, whatIDo } from "@/data/site";
 
 /** Profiles surfaced in the hero — the rest live in the footer and contact section. */
 const HERO_SOCIALS = ["GitHub", "LinkedIn", "X"];
@@ -62,17 +44,25 @@ export function Hero() {
               <TypingRoles roles={site.roles} />
             </p>
 
+            {/* Plain English, no stack names. The technical detail follows below
+                in smaller type so engineers still get the signal. */}
             <p className="mt-7 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-              I build reliable, production-ready infrastructure — high-performance APIs and
-              decentralized applications across the <strong className="font-medium text-fg">Rust</strong>,{" "}
-              <strong className="font-medium text-fg">TypeScript</strong> and blockchain ecosystems.
-              From backend services with Axum and NestJS to smart contracts on Ethereum, Starknet and
-              Stellar, my focus is the foundational layer other developers and applications depend on.
+              I build the engine room of software — the part people never see but always feel. Over
+              the past four years I&apos;ve shipped products that get real use: a study platform
+              with <strong className="font-medium text-fg">3,000+ students</strong>, a payments tool
+              moving <strong className="font-medium text-fg">real money</strong>, and open-source
+              tools that <strong className="font-medium text-fg">hundreds of other developers</strong>{" "}
+              have built on.
+            </p>
+
+            <p className="mt-4 max-w-xl font-mono text-xs leading-relaxed text-subtle">
+              Backend &amp; systems engineering · Rust, TypeScript, Axum, NestJS · smart contracts on
+              Ethereum, Starknet and Stellar
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <ButtonLink href="/projects">
-                View projects
+                See what I&apos;ve built
                 <ArrowRight className="h-4 w-4" />
               </ButtonLink>
               <ExternalButton href={site.resumePath} download>
@@ -106,16 +96,53 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Terminal decoration. Hidden from assistive tech — it repeats the copy above. */}
-          <div className="relative" aria-hidden="true">
-            <TerminalWindow title="~/akinshola/src/engineer.rs" className="rotate-[0.5deg]">
-              <CodeBlock code={HERO_SNIPPET} showLineNumbers />
-            </TerminalWindow>
+          {/*
+            Right column: outcomes, not code. This slot used to hold a Rust
+            snippet, which reads as noise to the recruiters and founders who make
+            up most of this site's traffic.
+          */}
+          <div className="space-y-5">
+            <div className="overflow-hidden rounded-xl border border-line bg-elevated">
+              <div className="border-b border-line px-5 py-3">
+                <h2 className="font-mono text-xs tracking-widest text-subtle uppercase">
+                  Impact so far
+                </h2>
+              </div>
+              <dl className="grid grid-cols-2 gap-px bg-line">
+                {impactStats.map((stat) => (
+                  <div key={stat.label} className="bg-elevated p-5">
+                    <dt className="sr-only">{stat.label}</dt>
+                    <dd>
+                      <span className="block text-2xl font-semibold tracking-tight text-accent sm:text-3xl">
+                        {stat.value}
+                      </span>
+                      <span className="mt-1.5 block text-xs leading-snug text-muted">
+                        {stat.label}
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
 
-            <div className="mt-4 flex items-center gap-3 rounded-xl border border-line bg-elevated/70 px-4 py-3 font-mono text-xs backdrop-blur">
-              <span className="text-term-green">$</span>
-              <span className="text-muted">cargo build --release</span>
-              <span className="ml-auto text-term-green">Finished in 0.42s</span>
+            <div className="rounded-xl border border-line bg-elevated p-5">
+              <h2 className="font-mono text-xs tracking-widest text-subtle uppercase">
+                What that means in practice
+              </h2>
+              <ul className="mt-4 space-y-4">
+                {whatIDo.map((item) => (
+                  <li key={item.title} className="flex gap-3">
+                    <span
+                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                      aria-hidden="true"
+                    />
+                    <div>
+                      <p className="text-sm font-medium text-fg">{item.title}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted">{item.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

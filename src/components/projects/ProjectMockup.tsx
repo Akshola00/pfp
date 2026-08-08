@@ -1,4 +1,3 @@
-import { CodeBlock } from "@/components/ui/TerminalWindow";
 import type { Project } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
@@ -9,9 +8,12 @@ import { cn } from "@/lib/utils";
  * or missing thumbnail. Drop a real screenshot into /public/projects/ and set
  * `image` in data/projects.ts and this is replaced by an optimised next/image.
  *
- * Strictly flat: per-project identity comes from a solid accent rule and the
- * accent-tinted chrome, never a colour wash. Purely decorative — the card
- * already exposes the title and description.
+ * Deliberately shows the project's name, plain-English pitch and headline
+ * numbers — not code. A wall of Rust as a thumbnail reads as noise to the
+ * recruiters and founders who make up most of this site's audience.
+ *
+ * Strictly flat: per-project identity comes from a solid accent rule, never a
+ * colour wash. Purely decorative — the card already exposes all of this text.
  */
 export function ProjectMockup({
   project,
@@ -40,23 +42,32 @@ export function ProjectMockup({
       {/* Solid accent rule — the one piece of per-project colour. */}
       <div className="absolute inset-x-0 top-0 h-0.5" style={{ backgroundColor: accent }} />
 
-      <div className="relative flex h-full flex-col p-4 sm:p-5">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
-          <span className="h-2 w-2 rounded-full bg-line-strong" />
-          <span className="h-2 w-2 rounded-full bg-line-strong" />
-          <span className="ml-2 truncate font-mono text-[0.625rem] text-subtle">
-            {project.slug}/{project.snippet.lang === "rust" ? "src/lib.rs" : "src/index.ts"}
-          </span>
+      <div className="relative flex h-full flex-col justify-between p-5 sm:p-6">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: accent }} />
+            <span className="font-mono text-[0.625rem] tracking-widest text-subtle uppercase">
+              {project.status}
+            </span>
+          </div>
+
+          <p className="mt-3 text-lg leading-tight font-semibold tracking-tight text-fg sm:text-xl">
+            {project.title}
+          </p>
+          <p className="mt-1.5 text-xs leading-snug text-muted sm:text-sm">{project.tagline}</p>
         </div>
 
-        <div className="mt-3 min-h-0 flex-1 overflow-hidden rounded-lg border border-line bg-bg p-3">
-          <CodeBlock code={project.snippet.code} className="text-[0.5625rem] sm:text-[0.625rem]" />
-        </div>
-
-        <div className="mt-3 flex items-center justify-between font-mono text-[0.625rem] text-subtle">
-          <span style={{ color: accent }}>{project.snippet.lang}</span>
-          <span>{project.status}</span>
+        <div className="flex flex-wrap gap-x-6 gap-y-3">
+          {project.impact.slice(0, 3).map((item) => (
+            <div key={item.label}>
+              <span className="block text-sm leading-none font-semibold sm:text-base" style={{ color: accent }}>
+                {item.value}
+              </span>
+              <span className="mt-1 block text-[0.625rem] leading-tight text-subtle">
+                {item.label}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

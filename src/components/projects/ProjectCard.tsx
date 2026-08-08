@@ -101,20 +101,29 @@ export function ProjectCard({
           )}
         </div>
 
-        <p className="mt-1.5 font-mono text-xs text-accent">{project.tagline}</p>
+        {/* Plain-English first. The technical description sits underneath it,
+            smaller, so engineers still get the signal without it leading. */}
+        <p className="mt-2 text-sm leading-snug font-medium text-accent">{project.tagline}</p>
+        <p className="mt-1 font-mono text-[0.6875rem] text-subtle">{project.techLine}</p>
 
-        <p className="mt-3 text-sm leading-relaxed text-muted">{project.summary}</p>
+        <p className="mt-3.5 text-sm leading-relaxed text-muted">{project.summary}</p>
 
-        <div className="mt-4 flex items-start gap-2.5 rounded-lg border border-line bg-sunken/60 p-3">
-          <span
-            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-term-green"
-            aria-hidden="true"
-          />
-          <p className="text-xs leading-relaxed text-fg">
-            <span className="font-mono text-subtle">outcome: </span>
-            {project.outcome}
-          </p>
-        </div>
+        {/* Headline numbers — the part a non-technical reader actually scans. */}
+        <dl className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-line bg-line">
+          {project.impact.map((item) => (
+            <div key={item.label} className="bg-sunken px-3 py-2.5">
+              <dt className="sr-only">{item.label}</dt>
+              <dd>
+                <span className="block text-base leading-none font-semibold text-fg">
+                  {item.value}
+                </span>
+                <span className="mt-1.5 block text-[0.6875rem] leading-tight text-subtle">
+                  {item.label}
+                </span>
+              </dd>
+            </div>
+          ))}
+        </dl>
 
         <ul className="mt-4 flex flex-wrap gap-1.5">
           {project.stack.map((tech) => (
